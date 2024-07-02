@@ -14,9 +14,3 @@ export type ChannelCreateProps = {
     creator: string;
   };
 };
-
-export type ConversationsInfoProps = {
-  channel: {
-    name: string;
-  };
-};
