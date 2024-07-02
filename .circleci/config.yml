@@ -8,7 +8,7 @@ commands:
   gcloud-authenticaiton:
     steps:
       - gcp-cli/setup:
-          gcloud_service_key: GCLOUD_SERVICE_KEY  
+          gcloud_service_key: GCLOUD_SERVICE_KEY
           google_project_id: GOOGLE_PROJECT_ID
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
 workflows:
   install_and_configure_cli:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               only:
