@@ -48,7 +48,7 @@ app.event("channel_created", async ({ event, client, logger }) => {
   }
 
   try {
-    // リンク付きメッセージを送信
+    // チャンネル付きメッセージを送信
     const result = await client.chat.postMessage({
       channel: process.env.CHANNEL_ID as string,
       text: `<#${channel.id}> が新規作成されました。`,
