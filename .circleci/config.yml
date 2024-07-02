@@ -5,7 +5,7 @@ orbs:
   node: circleci/node@5.2.0
 
 commands:
-  gcloud-authenticaiton:
+  gcloud-authentication:
     steps:
       - gcp-cli/setup:
           gcloud_service_key: GCLOUD_SERVICE_KEY
