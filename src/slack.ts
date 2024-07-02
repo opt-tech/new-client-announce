@@ -4,7 +4,6 @@ dotenv.config();
 
 import { MessageProps, ChannelCreateProps } from "./types";
 
-const channelId = process.env.CHANNEL_ID as string;
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN as string,
   signingSecret: process.env.SLACK_SIGNING_SECRET as string,
@@ -32,7 +31,7 @@ app.event("message", async ({ event, client, logger }) => {
 
     // リンク付きメッセージを送信
     await client.chat.postMessage({
-      channel: channelId,
+      channel: process.env.CHANNEL_ID as string,
       text: `<#${channel}> で『受注確定』または『新規受注』のワードが検知されました。\n${permalink}`,
     });
   } catch (error) {
@@ -51,7 +50,7 @@ app.event("channel_created", async ({ event, client, logger }) => {
   try {
     // リンク付きメッセージを送信
     const result = await client.chat.postMessage({
-      channel: channelId,
+      channel: process.env.CHANNEL_ID as string,
       text: `<#${channel.id}> が新規作成されました。`,
     });
 
