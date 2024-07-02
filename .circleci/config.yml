@@ -27,7 +27,7 @@ jobs:
       - run:
           name: docker push
           command: |
-            docker tag new-client-announce asia-northeast1-docker.pkg.dev/data-intelligence/new-client-announce:latest
+            docker tag new-client-announce asia-northeast1-docker.pkg.dev/data-intelligence/server/new-client-announce:latest
             docker push asia-northeast1-docker.pkg.dev/data-intelligence/server/new-client-announce
 
 workflows:
