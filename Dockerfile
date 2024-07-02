@@ -8,4 +8,6 @@ RUN npm i
 
 COPY . .
 
-CMD ["npm", "start"]
+EXPOSE 8080
+
+CMD ["npm", "run", "start"]

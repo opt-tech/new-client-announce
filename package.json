@@ -4,7 +4,7 @@
   "main": "src/slack.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc && node dist/slack.js",
+    "start": "tsc && node dist/slack.js",
     "dev:watch": "ts-node-dev --respawn src/slack.ts"
   },
   "keywords": [],
