@@ -43,8 +43,12 @@ jobs:
       - run:
           name: set variables
           command: |
-            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN --project $GOOGLE_PROJECT_ID)
-            echo $SLACK_BOT_TOKEN
+            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
+              --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
+              --project $GOOGLE_PROJECT_ID)
+            export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
+              --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
+              --project $GOOGLE_PROJECT_ID)
       # - run:
       #   name: deploy slack bot
       #   command: |
@@ -53,6 +57,7 @@ jobs:
       #       --platform=managed \
       #       --region=asia-northeast1 \
       #       --allow-unauthenticated
+
 workflows:
   install_and_configure_cli:
     jobs:
