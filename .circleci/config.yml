@@ -17,13 +17,13 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
-      - run:
-          name: docker build
-          command: docker build -t new-client-announce .
       - gcloud-authentication
       - run:
           name: docker configure
           command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+      - run:
+          name: docker build
+          command: docker build -t new-client-announce .
       - run:
           name: docker tag
           command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest
@@ -31,6 +31,28 @@ jobs:
           name: docker push
           command: docker push asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest
 
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - gcloud-authentication
+      - run:
+          name: docker configure
+          command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+      - run:
+          name: set variables
+          command: |
+            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN --project $GOOGLE_PROJECT_ID)
+            echo $SLACK_BOT_TOKEN
+      # - run:
+      #   name: deploy slack bot
+      #   command: |
+      #     gcloud run deploy new-client-announce \
+      #       --image=asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest \
+      #       --platform=managed \
+      #       --region=asia-northeast1 \
+      #       --allow-unauthenticated
 workflows:
   install_and_configure_cli:
     jobs:
