@@ -21,6 +21,11 @@ jobs:
       - run:
           name: docker configure
           command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+      -run:
+          name: env
+          command: |
+            echo $GOOGLE_PROJECT_ID
+            echo ${GOOGLE_PROJECT_ID}
       - run:
           name: docker build
           command: docker build -t new-client-announce .
@@ -31,35 +36,36 @@ jobs:
           name: docker push
           command: docker push asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest
 
-  deploy:
-    machine:
-      image: ubuntu-2204:current
-    steps:
-      - checkout
-      - gcloud-authentication
-      - run:
-          name: docker configure
-          command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
-      - run:
-          name: set variables
-          command: |
-            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
-              --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
-              --project $GOOGLE_PROJECT_ID)
-            export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
-              --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
-              --project $GOOGLE_PROJECT_ID)
-      # - run:
-      #   name: deploy slack bot
-      #   command: |
-      #     gcloud run deploy new-client-announce \
-      #       --image=asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest \
-      #       --platform=managed \
-      #       --region=asia-northeast1 \
-      #       --allow-unauthenticated
+  # deploy:
+  #   machine:
+  #     image: ubuntu-2204:current
+  #   steps:
+  #     - checkout
+  #     - gcloud-authentication
+  #     - run:
+  #         name: docker configure
+  #         command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+  # - run:
+  #     name: set variables
+  #     command: |
+  #       export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
+  #         --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
+  #         --project $GOOGLE_PROJECT_ID)
+  #       export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
+  #         --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
+  #         --project $GOOGLE_PROJECT_ID)
+  # - run:
+  #   name: deploy slack bot
+  #   command: |
+  #     gcloud run deploy new-client-announce \
+  #       --image=asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest \
+  #       --platform=managed \
+  #       --region=asia-northeast1 \
+  #       --allow-unauthenticated \
+  #       --update-secrets=SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET:latest
 
 workflows:
   install_and_configure_cli:
     jobs:
-      # - build
-      - deploy
+      - build
+      # - deploy
