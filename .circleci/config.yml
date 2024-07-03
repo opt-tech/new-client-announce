@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   gcp-cli: circleci/gcp-cli@3.2.1
-  node: circleci/node@5.2.0
 
 commands:
   gcloud-authentication:
@@ -45,15 +44,15 @@ jobs:
           command: |
             export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
               --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
-              --project $GOOGLE_PROJECT_ID)
+              --project data-intelligence-216907)
             export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
               --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
-              --project $GOOGLE_PROJECT_ID)
+              --project data-intelligence-216907)
       - run:
           name: deploy slack bot
           command: |
             gcloud run deploy new-client-announce \
-              --image=asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest \
+              --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
               --region=asia-northeast1 \
               --allow-unauthenticated \
               --update-secrets=SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET:latest
@@ -62,4 +61,6 @@ workflows:
   install_and_configure_cli:
     jobs:
       - build
-      - deploy
+      - deploy:
+          requires:
+            - build
