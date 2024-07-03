@@ -21,7 +21,7 @@ jobs:
       - run:
           name: docker configure
           command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
-      -run:
+      - run:
           name: env
           command: |
             echo $GOOGLE_PROJECT_ID
