@@ -26,10 +26,10 @@ jobs:
           command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
       - run:
           name: docker tag
-          command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/data-intelligence-216907/server/new-client-announce:latest
+          command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce:latest
       - run:
           name: docker push
-          command: docker push asia-northeast1-docker.pkg.dev/data-intelligence-216907/server/new-client-announce
+          command: docker push asia-northeast1-docker.pkg.dev/$GOOGLE_PROJECT_ID/new-client-announce/new-client-announce/new-client-announce:latest
 
 workflows:
   install_and_configure_cli:
