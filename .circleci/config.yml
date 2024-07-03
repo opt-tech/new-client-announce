@@ -26,10 +26,10 @@ jobs:
           command: docker build -t new-client-announce .
       - run:
           name: docker tag
-          command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/tech-induction-training-2024/new-client-announce/new-client-announce:latest
+          command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest
       - run:
           name: docker push
-          command: docker push asia-northeast1-docker.pkg.dev/tech-induction-training-2024/new-client-announce/new-client-announce:latest
+          command: docker push asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest
 
   # deploy:
   #   machine:
