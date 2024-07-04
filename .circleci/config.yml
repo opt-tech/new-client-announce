@@ -62,6 +62,7 @@ jobs:
             echo $CHANNEL_ID
             gcloud run deploy new-client-announce \
               --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
+              --project=data-intelligence-216907 \
               --region=asia-northeast1 \
               --allow-unauthenticated \
               --update-secrets=SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest,CHANNEL_ID=CHANNEL_ID:latest \
