@@ -62,7 +62,7 @@ jobs:
               # --set-env-vars SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest \
               # --set-env-vars SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest \
               # --set-env-vars CHANNEL_ID=CHANNEL_ID:latest
-              --update-secrets=SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest,CHANNEL_ID=CHANNEL_ID:latest
+              --set-secrets=SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest,CHANNEL_ID=CHANNEL_ID:latest
 
 workflows:
   install_and_configure_cli:
