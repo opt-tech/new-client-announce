@@ -4,6 +4,10 @@ dotenv.config();
 
 import { MessageProps, ChannelCreateProps } from "./types";
 
+console.log("SLACK_BOT_TOKEN" + process.env.SLACK_BOT_TOKEN);
+console.log("SLACK_SIGNING_SECRET" + process.env.SLACK_SIGNING_SECRET);
+console.log("CHANNEL_ID" + process.env.CHANNEL_ID);
+
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN as string,
   signingSecret: process.env.SLACK_SIGNING_SECRET as string,
@@ -61,6 +65,6 @@ app.event("channel_created", async ({ event, client, logger }) => {
 });
 
 (async () => {
-  await app.start(process.env.PORT || 3000);
+  await app.start(process.env.PORT || 8080);
   console.log(`⚡️ Bolt app is running!`);
 })();

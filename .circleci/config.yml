@@ -2,13 +2,12 @@ version: 2.1
 
 orbs:
   gcp-cli: circleci/gcp-cli@3.2.1
-  node: circleci/node@5.2.0
 
 commands:
-  gcloud-authenticaiton:
+  gcloud-authentication:
     steps:
       - gcp-cli/setup:
-          gcloud_service_key: GCLOUD_SERVICE_KEY  
+          gcloud_service_key: GCLOUD_SERVICE_KEY
           google_project_id: GOOGLE_PROJECT_ID
 
 jobs:
@@ -17,16 +16,43 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
+      - gcloud-authentication
+      - run:
+          name: docker configure
+          command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
       - run:
           name: docker build
           command: docker build -t new-client-announce .
+      - run:
+          name: docker tag
+          command: docker tag new-client-announce asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest
+      - run:
+          name: docker push
+          command: docker push asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest
+
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
       - gcloud-authentication
+      - run:
+          name: docker configure
+          command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+      - run:
+          name: deploy
+          command: |
+            gcloud run deploy new-client-announce \
+              --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
+              --project=data-intelligence-216907 \
+              --region=asia-northeast1 \
+              --allow-unauthenticated \
+              --update-secrets=SLACK_BOT_TOKEN=NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET:latest,CHANNEL_ID=NEW_CLIENT_ANNOUNCE_CHANNEL_ID:latest
 
 workflows:
   install_and_configure_cli:
     jobs:
       - build
-          filters:
-            branches:
-              only:
-                - main
+      - deploy:
+          requires:
+            - build
