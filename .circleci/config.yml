@@ -61,7 +61,9 @@ jobs:
               --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
               --region=asia-northeast1 \
               --allow-unauthenticated \
-              --set-env-vars SLACK_SIGNING_SECRET=$SLACK_BOT_TOKEN,SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET,CHANNEL_ID=$CHANNEL_ID
+              --set-env-vars SLACK_SIGNING_SECRET=${SLACK_BOT_TOKEN} \
+              --set-env-vars SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET} \
+              --set-env-vars CHANNEL_ID=${CHANNEL_ID}
 
 workflows:
   install_and_configure_cli:
