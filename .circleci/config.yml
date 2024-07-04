@@ -69,9 +69,9 @@ jobs:
       - run:
           name: deploy slack bot
           command: |
-            echo $SLACK_BOT_TOKEN
-            echo $SLACK_SIGNING_SECRET
-            echo $CHANNEL_ID
+            echo ${SLACK_BOT_TOKEN}
+            echo ${SLACK_SIGNING_SECRET}
+            echo ${CHANNEL_ID}
             # gcloud run deploy new-client-announce \
             #   --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
             #   --region=asia-northeast1 \
