@@ -54,6 +54,9 @@ jobs:
       - run:
           name: deploy
           command: |
+            echo SLACK_BOT_TOKEN:latest
+            echo SLACK_SIGNING_SECRET:latest
+            echo CHANNEL_ID:latest
             gcloud run deploy new-client-announce \
               --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
               --project=data-intelligence-216907 \
