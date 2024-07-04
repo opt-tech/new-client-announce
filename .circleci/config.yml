@@ -40,18 +40,6 @@ jobs:
           name: docker configure
           command: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
       - run:
-          name: set secret environment variables
-          command: |
-            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
-              --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
-              --project data-intelligence-216907)
-            export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
-              --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
-              --project data-intelligence-216907)
-            export CHANNEL_ID=$(gcloud secrets versions access latest \
-              --secret NEW_CLIENT_ANNOUNCE_CHANNEL_ID \
-              --project data-intelligence-216907)
-      - run:
           name: deploy
           command: |
             gcloud run deploy new-client-announce \
@@ -59,10 +47,7 @@ jobs:
               --project=data-intelligence-216907 \
               --region=asia-northeast1 \
               --allow-unauthenticated \
-              # --set-env-vars SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest \
-              # --set-env-vars SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest \
-              # --set-env-vars CHANNEL_ID=CHANNEL_ID:latest
-              --set-secrets=SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest,CHANNEL_ID=CHANNEL_ID:latest
+              --update-secrets=SLACK_BOT_TOKEN=NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET:latest,CHANNEL_ID=NEW_CLIENT_ANNOUNCE_CHANNEL_ID:latest
 
 workflows:
   install_and_configure_cli:
