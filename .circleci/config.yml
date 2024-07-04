@@ -54,17 +54,15 @@ jobs:
       - run:
           name: deploy
           command: |
-            echo SLACK_BOT_TOKEN:latest
-            echo SLACK_SIGNING_SECRET:latest
-            echo CHANNEL_ID:latest
             gcloud run deploy new-client-announce \
               --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
               --project=data-intelligence-216907 \
               --region=asia-northeast1 \
               --allow-unauthenticated \
-              --set-env-vars SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest
-              --set-env-vars SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest
+              --set-env-vars SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest \
+              --set-env-vars SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest \
               --set-env-vars CHANNEL_ID=CHANNEL_ID:latest
+              # --set-secrets=SLACK_BOT_TOKEN=SLACK_BOT_TOKEN:latest,SLACK_SIGNING_SECRET=SLACK_SIGNING_SECRET:latest,CHANNEL_ID=CHANNEL_ID:latest
 
 workflows:
   install_and_configure_cli:
