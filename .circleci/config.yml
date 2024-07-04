@@ -67,6 +67,6 @@ workflows:
   install_and_configure_cli:
     jobs:
       - build
-      - deploy
-        # requires:
-        #   - build
+      - deploy:
+          requires:
+            - build
