@@ -42,21 +42,24 @@ jobs:
       - run:
           name: set secret environment variables
           command: |
-            SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
+            export SLACK_BOT_TOKEN=$(gcloud secrets versions access latest \
               --secret NEW_CLIENT_ANNOUNCE_SLACK_BOT_TOKEN \
               --project data-intelligence-216907)
-            SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
+            export SLACK_SIGNING_SECRET=$(gcloud secrets versions access latest \
               --secret NEW_CLIENT_ANNOUNCE_SLACK_SIGNING_SECRET \
               --project data-intelligence-216907)
-            CHANNEL_ID=$(gcloud secrets versions access latest \
+            export CHANNEL_ID=$(gcloud secrets versions access latest \
               --secret NEW_CLIENT_ANNOUNCE_CHANNEL_ID \
               --project data-intelligence-216907)
-            echo "export SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >> $BASH_ENV
-            echo "export SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >> $BASH_ENV
-            echo "export CHANNEL_ID=$CHANNEL_ID" >> $BASH_ENV
+            # echo "export SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >> $BASH_ENV
+            # echo "export SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >> $BASH_ENV
+            # echo "export CHANNEL_ID=$CHANNEL_ID" >> $BASH_ENV
       - run:
           name: deploy slack bot
           command: |
+            # echo $SLACK_BOT_TOKEN
+            # echo $SLACK_SIGNING_SECRET
+            # echo $CHANNEL_ID
             gcloud run deploy new-client-announce \
               --image=asia-northeast1-docker.pkg.dev/data-intelligence-216907/new-client-announce/new-client-announce:latest \
               --region=asia-northeast1 \
